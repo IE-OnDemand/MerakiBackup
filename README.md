@@ -7,11 +7,16 @@ and devices, for the config settings that have API endpoint support.
 ### PREREQUISITES
 > API key can, and is recommended to, be set as an environment variable named MERAKI_DASHBOARD_API_KEY. 
 Use with Meraki Python SDK @ github.com/meraki/dashboard-api-python/ & install required libraries with
+
   `pip install -r requirements.txt` 
 
-  **OR** If you have/use poetry:
+**OR**
+If you have and use poetry:
+
   `poetry install` 
-  And then to activate your environment:
+
+And then to activate your environment:
+
   `poetry shell` 
 
 ### USAGE
@@ -32,11 +37,16 @@ See the input restore_operations.csv spreadsheet for full list of API endpoints 
 ### PREREQUISITES
 > API key can, and is recommended to, be set as an environment variable named MERAKI_DASHBOARD_API_KEY.
 Use with Meraki Python SDK @ github.com/meraki/dashboard-api-python/ & install required libraries with
+
   `pip install -r requirements.txt`
 
-  **OR** If you have/use poetry:
+**OR**
+If you have and use poetry:
+
   `poetry install` 
-  And then to activate your environment:
+
+And then to activate your environment:
+
   `poetry shell` 
 
 ### USAGE
