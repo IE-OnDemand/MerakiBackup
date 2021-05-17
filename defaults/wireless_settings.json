@@ -1,0 +1,7 @@
+{
+    "meshingEnabled": true,
+    "ipv6BridgeEnabled": true,
+    "locationAnalyticsEnabled": true,
+    "ledLightsOn": true,
+    "upgradeStrategy": "minimizeUpgradeTime"
+}

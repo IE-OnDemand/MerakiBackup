@@ -1,0 +1,19 @@
+{
+    "ssidNumber": 0,
+    "splashMethod": "None",
+    "splashUrl": null,
+    "useSplashUrl": false,
+    "splashTimeout": 1440,
+    "redirectUrl": null,
+    "useRedirectUrl": false,
+    "welcomeMessage": null,
+    "splashLogo": {
+        "md5": null
+    },
+    "splashImage": {
+        "md5": null
+    },
+    "splashPrepaidFront": {
+        "md5": null
+    }
+}
