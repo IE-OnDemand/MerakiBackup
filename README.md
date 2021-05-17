@@ -16,6 +16,7 @@ Use with Meraki Python SDK @ github.com/meraki/dashboard-api-python/ & install r
   `pip install -r requirements.txt` 
 
 **OR**
+
 If you have and use poetry:
 
   `poetry install` 
@@ -28,6 +29,7 @@ And then to activate your environment:
 ### USAGE
 
 Run the command below.  Options are not required if enclosed in "[]".
+
   `./backup_configs.py [-o <org_id>] [-k <api_key>] [-t <tag>] [-y]`
 
 If the optional [-t <tag>] is provided, then filter only for those networks with the tag, along with those networks' devices.
@@ -55,6 +57,7 @@ Use with Meraki Python SDK @ github.com/meraki/dashboard-api-python/ & install r
   `pip install -r requirements.txt`
 
 **OR**
+
 If you have and use poetry:
 
   `poetry install` 
