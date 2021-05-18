@@ -13,6 +13,24 @@ import meraki
 # INCLUDE THIS FILE LOCALLY
 OPERATION_MAPPINGS_FILE = 'restore_operations.csv'  # path to input file, listing GET operations of API calls
 
+READ_ME = '''
+### DESCRIPTION
+This script creates new networks/templates and restores their configuration from a backup set of JSON files.
+Settings that require a device to be present are not included, to safely not affect any running networks/devices.
+See the input restore_operations.csv spreadsheet for full list of API endpoints that are requested.
+### PREREQUISITES
+API key can, and is recommended to, be set as an environment variable named MERAKI_DASHBOARD_API_KEY.
+Use with Meraki Python SDK @ github.com/meraki/dashboard-api-python/ & install required libraries with
+pip install -r requirements.txt
+OR
+If you have and use poetry:
+poetry install
+And then to activate your environment:
+poetry shell
+### USAGE
+Run the command below.  Options are not required if enclosed in "[]".
+./restore_configs.py [-o <org_id>] [-k <api_key>] -d <backup_directory>
+'''
 
 def parse_arguments(parser):
     org_id = '324893'

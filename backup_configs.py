@@ -29,6 +29,27 @@ COMPLETED_OPERATIONS = set()
 DEFAULT_CONFIGS = []
 DEVICES = NETWORKS = TEMPLATES = []
 
+READ_ME = '''
+### DESCRIPTION
+This script iterates through a dashboard organization and backs up the configuration for the org, networks & templates,
+and devices, for the config settings that have API endpoint support.
+
+### PREREQUISITES
+API key can, and is recommended to, be set as an environment variable named MERAKI_DASHBOARD_API_KEY.
+Use with Meraki Python SDK @ github.com/meraki/dashboard-api-python/ & install required libraries with
+pip install -r requirements.txt
+OR
+If you have and use poetry:
+poetry install
+And then to activate your environment:
+poetry shell
+
+### USAGE
+Run the command below.  Options are not required if enclosed in "[]".
+./backup_configs.py [-o <org_id>] [-k <api_key>] [-t <tag>] [-y]
+If the optional [-t <tag>] is provided, then filter only for those networks with the tag, along with those networks' devices.
+Optional flag [-y] to automatically continue to run without waiting for user confirmation.
+'''
 
 # Helper function that returns type of device based on model number
 def device_type(model):
@@ -642,52 +663,48 @@ def print_help():
 
 # Parse command line arguments
 def main(inputs):
-    if len(inputs) == 0:
+    org_id = '324893'
+    api_key = os.getenv('MERAKI_DASHBOARD_API_KEY', None)
+    filter_tag = auto_run = confirm = None
+    try:
+        opts, args = getopt.getopt(inputs, 'ho:k:t:y')
+    except getopt.GetoptError:
+        print_help()
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print_help()
+            sys.exit(2)
+        elif opt == '-o':
+            org_id = arg
+        elif opt == '-k':
+            api_key = arg
+        elif opt == '-t':
+            filter_tag = arg
+        elif opt == '-y':
+            auto_run = True
+
+    if api_key is None:
         print_help()
         sys.exit(2)
     else:
-        org_id = '324893'
-        api_key = os.getenv('MERAKI_DASHBOARD_API_KEY', None)
-        filter_tag = auto_run = confirm = None
-        try:
-            opts, args = getopt.getopt(inputs, 'ho:k:t:y')
-        except getopt.GetoptError:
-            print_help()
-            sys.exit(2)
-        for opt, arg in opts:
-            if opt == '-h':
-                print_help()
-                sys.exit(2)
-            elif opt == '-o':
-                org_id = arg
-            elif opt == '-k':
-                api_key = arg
-            elif opt == '-t':
-                filter_tag = arg
-            elif opt == '-y':
-                auto_run = True
-
-        if api_key is None:
-            print_help()
-            sys.exit(2)
-        else:
-            calls, minutes = estimate_backup(api_key, org_id, filter_tag)
-            minutes = f'{minutes} minutes' if minutes != 1 else '1 minute'
-            message = f'Based on your org, it is estimated that around {calls:,} API calls will be made, '
-            message += f'so should not take longer than about {minutes} to finish running.\n'
-            message += 'Do you want to continue [Y/n]? '
-            if not auto_run:
-                confirm = input(message)
-            if auto_run or confirm.upper() in ('Y', 'YES'):
-                print()
-                backup_path, time_ran, calls_made = run_backup(api_key, org_id, filter_tag)
-                time_ran_min = time_ran.seconds // 60
-                time_ran_min = f'{time_ran_min} minutes' if time_ran_min != 1 else '1 minute'
-                time_ran_sec = time_ran.seconds % 60
-                time_ran_sec = f'{time_ran_sec} seconds' if time_ran_sec != 1 else '1 second'
-                message = f'\nThis backup process ended up making {calls_made:,} API calls, taking a total time of '
-                message += f'{time_ran_min} {time_ran_sec}. The output can be found in the folder: {backup_path}'
-                print(message)
+        calls, minutes = estimate_backup(api_key, org_id, filter_tag)
+        minutes = f'{minutes} minutes' if minutes != 1 else '1 minute'
+        message = f'Based on your org, it is estimated that around {calls:,} API calls will be made, '
+        message += f'so should not take longer than about {minutes} to finish running.\n'
+        message += 'Do you want to continue [Y/n]? '
+        if not auto_run:
+            confirm = input(message)
+        if auto_run or confirm.upper() in ('Y', 'YES'):
+            print()
+            backup_path, time_ran, calls_made = run_backup(api_key, org_id, filter_tag)
+            time_ran_min = time_ran.seconds // 60
+            time_ran_min = f'{time_ran_min} minutes' if time_ran_min != 1 else '1 minute'
+            time_ran_sec = time_ran.seconds % 60
+            time_ran_sec = f'{time_ran_sec} seconds' if time_ran_sec != 1 else '1 second'
+            message = f'\nThis backup process ended up making {calls_made:,} API calls, taking a total time of '
+            message += f'{time_ran_min} {time_ran_sec}. The output can be found in the folder: {backup_path}'
+            print(message)
 
 
 if __name__ == '__main__':
