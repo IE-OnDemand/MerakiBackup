@@ -2,7 +2,7 @@
 name = "MerakiBackup"
 version = "0.1.0"
 description = "Backup Meraki Configs"
-authors = ["Ricky Laney <rlaneyjr@gmail.com>"]
+authors = ["Ricky Laney <rlaney@ineteng.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
